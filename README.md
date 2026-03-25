@@ -1,5 +1,10 @@
 # offline_posts_manager
 
+
+## Handwritten discussion 
+
+[Here's the document](./handwritten_discussion.pdf)
+
 ## App Demonstration
 
 In the video below, I demonstrate the full CRUD lifecycle of the application. 
