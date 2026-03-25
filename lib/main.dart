@@ -3,7 +3,6 @@ import 'database_helper.dart';
 import 'post_model.dart';
 
 void main() async {
-  // Required for local storage to initialize correctly
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const OfflinePostsApp());
@@ -94,17 +93,15 @@ class _PostsScreenState extends State<PostsScreen> {
 
                 if (title.isNotEmpty && content.isNotEmpty) {
                   if (post == null) {
-                    // CREATE operation
                     await DatabaseHelper.instance.create(
                       Post(title: title, content: content),
                     );
                   } else {
-                    // UPDATE operation
                     await DatabaseHelper.instance.update(
                       Post(id: post.id, title: title, content: content),
                     );
                   }
-                  refreshPosts(); // State update [cite: 5]
+                  refreshPosts();
                   Navigator.pop(context);
                 }
               },
@@ -129,7 +126,7 @@ class _PostsScreenState extends State<PostsScreen> {
           } else if (snapshot.hasError) {
             return Center(
               child: Text("Error: ${snapshot.error}"),
-            ); // [cite: 16]
+            );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text("No posts yet. Add one!"));
           }
@@ -147,11 +144,9 @@ class _PostsScreenState extends State<PostsScreen> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(post.content, maxLines: 1),
-                  // READ details & UPDATE [cite: 8, 10]
                   onTap: () => _showPostForm(post),
                   trailing: IconButton(
                     icon: const Icon(Icons.delete_outline, color: Colors.red),
-                    // DELETE operation
                     onPressed: () async {
                       await DatabaseHelper.instance.delete(post.id!);
                       refreshPosts();
@@ -164,7 +159,7 @@ class _PostsScreenState extends State<PostsScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showPostForm(null), // ADD operation
+        onPressed: () => _showPostForm(null),
         label: const Text("New Post"),
         icon: const Icon(Icons.add),
       ),
